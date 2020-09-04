@@ -20,4 +20,4 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
-git@github.com:jessica-tavares/MegaHackWomen.git
+// git@github.com:jessica-tavares/MegaHackWomen.git
