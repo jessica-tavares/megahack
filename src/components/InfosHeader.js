@@ -1,19 +1,21 @@
 import React, { useContext } from 'react';
-import { Image } from 'react-bootstrap';
+import { Image, Container } from 'react-bootstrap';
 import { FusionMedContext } from '../context';
+import '../style/AuxiliarStyle.css'
 
-function InfosHeader() {
+function InfosHeader({ plano }) {
   const { pacient } = useContext(FusionMedContext);
   return (
-    <div>
+    <Container className="header-info">
       <div>
-        <Image src={pacient.thumbnail} roundedCircle alt="Imagem do paciente" />
+        <Image src={pacient.img_profile} roundedCircle alt="Imagem do paciente" className="header-picture" />
       </div>
       <div>
-        <h2>{pacient.name}</h2>
-        <h5>Nº Carteirinha: {pacient.planNumber}</h5>
+        <h2 className="header-name">{pacient.name}</h2>
+        <h5>Nº Carteirinha: {pacient.card_number}</h5>
+        {(plano) && <h5>Plano: {pacient.plan_type}</h5>}
       </div>
-    </div>
+    </Container>
   )
 }
 

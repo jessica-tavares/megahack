@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export const FusionMedContext = createContext();
 
 const ProviderFusionMed = ({ children }) => {
-  const [pacient, setPacient] = useState([]);
+  const [pacient, setPacient] = useState({});
 
   const context = {
     pacient,

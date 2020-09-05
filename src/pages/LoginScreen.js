@@ -1,49 +1,53 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Form, Container, Image } from 'react-bootstrap';
 import '../style/AuxiliarStyle.css';
-import FusionMedContext from '../context';
+import { FusionMedContext } from '../context';
 import logo from '../images/logo.jpeg';
 import RenderButton from '../components/RenderButton';
 import RenderInput from '../components/RenderInput';
-import getPacientData from '../services/api';
+import axios from "axios";
 
-function verifyFields(PacienteNumber, password) {
+function verifyFields(PacientNumber, password) {
   let valid = false;
   let disable = true;
 
-  if ( PacienteNumber.length > 6 ) {
+  if ( PacientNumber.length > 0 ) {
     valid = true;
   }
-  if (password.length > 6 && valid) {
+  if (password.length > 5 && valid) {
     disable = false;
   }
   return disable;
 }
 
 function LoginScreen() {
+  let history = useHistory();
   const [disableButton, setDisableButton] = useState(true);
-  const [PacienteNumber, setPacienteNumber] = useState('');
+  const [PacientNumber, setPacienteNumber] = useState('');
   const [password, setPassword] = useState('');
   const { setPacient, pacient } = useContext(FusionMedContext);
+  const PACIENT_ENDPOINT = "https://fusion-med.herokuapp.com/api/accounts/pacients/";
 
   useEffect(() => {
-    setDisableButton(verifyFields(PacienteNumber, password));
-  }, [PacienteNumber, password]);
+    setDisableButton(verifyFields(PacientNumber, password));
+  }, [PacientNumber, password]);
 
   const onLoginClick = async() => {
-    if(PacienteNumber.length > 0) await getPacientData(PacienteNumber).then(
-      (apiData) => setPacient(apiData)
-    )
-    if (pacient.length > 0) return <Redirect to="/home" />
+    await axios
+      .get(`${PACIENT_ENDPOINT}${PacientNumber}`)
+      .then(response => setPacient(response.data))
+      .catch(error => console.log(error));
+    if (pacient) return history.push('/home') //  && pacient.password === password
+    else return alert('Paciente não encontrado!')
   }
 
   return (
-    <Container fluid sm className="justify-content-sm-center div-container">
+    <Container fluid className="justify-content-sm-center div-container">
       <Image src={logo} alt="Logo fusion Med" rounded fluid className="login-image" />
       <Form.Group xs="auto">
         <RenderInput
-          type="PacienteNumber"
+          type="PacientNumber"
           onChange={(e) => setPacienteNumber(e.target.value)}
           placeholder="Nº Carteirinha"
           required
@@ -64,7 +68,7 @@ function LoginScreen() {
           type="button"
           disabled={disableButton}
           size="lg" variant="primary" className="med button"
-          onClicck={() => onLoginClick}
+          onClick={() => onLoginClick()}
           >
           Login
         </RenderButton>
