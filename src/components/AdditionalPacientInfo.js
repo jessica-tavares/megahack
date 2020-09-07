@@ -9,7 +9,7 @@ function AdditionalPacientInfo() {
   return (
     <div className="additional-info">
       <h5>{pacient.gender}</h5>
-      <h5>{pacient.birth_date}</h5>
+      <h5>{pacient.birth_date_f}</h5>
       <h5>{pacient.weight}kg</h5>
       <h5>{pacient.blood_type}</h5>
     </div>

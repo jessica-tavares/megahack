@@ -27,7 +27,7 @@ function LoginScreen() {
   const [PacientNumber, setPacienteNumber] = useState('');
   const [password, setPassword] = useState('');
   const { setPacient, pacient } = useContext(FusionMedContext);
-  const PACIENT_ENDPOINT = "https://fusion-med.herokuapp.com/api/accounts/pacients/";
+  const PACIENT_ENDPOINT = "https://fusion-med.herokuapp.com/api/accounts/pacients/?card_number=";
 
   useEffect(() => {
     setDisableButton(verifyFields(PacientNumber, password));
@@ -36,7 +36,7 @@ function LoginScreen() {
   const onLoginClick = async() => {
     await axios
       .get(`${PACIENT_ENDPOINT}${PacientNumber}`)
-      .then(response => setPacient(response.data))
+      .then(response => setPacient(response.data[0]))
       .catch(error => console.log(error));
     if (pacient) return history.push('/home') //  && pacient.password === password
     else return alert('Paciente não encontrado!')
