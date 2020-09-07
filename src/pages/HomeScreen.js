@@ -23,7 +23,7 @@ function HomeScreen() {
         <CardCheck title="Batimentos Cardiácos" measure="75 bpm" image="heart.jpeg" />
         <h1 className="header-title left">Não se Esqueça</h1>
         <CardCheck title="Vacinação" measure="20 Set" image="vacina.jpeg" />
-        <CardCheck title="Comprar medicamento" measure="30 Out" image="pills.jpeg" />
+        <CardCheck title="Agendar Papanicolau" measure="30 Out" image="pills.jpeg" />
       </div>
       <Footer />
     </Container>
